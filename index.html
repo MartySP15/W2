@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whiskey Live 2025 Tasting Notes</title>
+<link rel="manifest" href="manifest.json">
+<style>
+ body{font-family:Arial;margin:0;background:#FAF3E3}
+ header{background:#006064;color:#fff;padding:.5rem 1rem;display:flex;align-items:center;gap:.6rem}
+ header img{width:40px;height:40px;border-radius:8px}
+ main{padding:1rem}
+ form{background:#fff;border-radius:8px;padding:1rem;box-shadow:0 0 5px rgba(0,0,0,.1)}
+ label{display:block;margin-top:.7rem;font-weight:bold}
+ input,select,textarea{width:100%;padding:.5rem;margin-top:.25rem;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}
+ input[type=range]{width:90%}
+ textarea{resize:vertical}
+ button{margin-top:1rem;padding:.6rem 1rem;border:none;border-radius:4px;background:#006064;color:#fff;font-size:1rem}
+ button.small-btn{background:#888;font-size:.8rem;padding:.35rem .7rem;margin-right:.4rem}
+ h2{margin-top:2rem}
+ .entry{background:#fff;padding:.7rem;border-radius:6px;margin-bottom:.6rem;box-shadow:0 0 4px rgba(0,0,0,.06)}
+ .entry-title{font-weight:bold;font-size:1.1rem}
+ #scannerWrap{display:none;position:fixed;inset:0;background:#000c;z-index:1000;align-items:center;justify-content:center;flex-direction:column}
+ #scannerVideo{width:80%;max-width:400px;border:4px solid #fff;border-radius:12px}
+</style>
+</head>
+<body>
+<header><img src="logo.png" alt="logo"><h1>Whiskey Live 2025 Tasting Notes</h1></header>
+<main>
+
+<form id="tastingForm">
+ <h2>New Tasting 
+   <button id="scanBtn" type="button" class="small-btn" style="background:#006064">📷 Scan Barcode</button>
+ </h2>
+
+ <!-- Photo -->
+ <label>Bottle Photo
+  <input name="photo" type="file" accept="image/*" capture="camera">
+ </label>
+
+ <!-- Core identity -->
+ <label>Whiskey Name &amp; Expression
+  <input name="name" required>
+ </label>
+
+ <label>Distillery / Brand
+  <input name="distillery" list="distilleryList" placeholder="Start typing…">
+  <datalist id="distilleryList">
+    <!-- your distillery options go here -->
+  </datalist>
+ </label>
+
+ <label>Type / Style
+  <select name="style"><option value="">Select</option><option>Pot Still</option><option>Blended</option><option>Single Malt</option><option>Single Grain</option><option>Rye</option><option>Bourbon</option></select>
+ </label>
+
+ <label>Country
+  <select name="country"><option value="">Select</option><option>Ireland</option><option>Scotland</option><option>USA</option><option>Japan</option></select>
+ </label>
+
+ <label>Region <input name="region"></label>
+ <label>ABV / Proof <input name="abv"></label>
+ <label>Age / Vintage <input name="age"></label>
+ <label>Cask / Finish <input name="cask"></label>
+ <label>Tasting Date <input name="date" type="date" value="{today}"></label>
+
+ <!-- Sensory -->
+ <label>Appearance <textarea name="appearance"></textarea></label>
+ <label>Nose <textarea name="nose"></textarea></label>
+ <label>Palate <textarea name="palate"></textarea></label>
+ <label>Finish <textarea name="finish"></textarea></label>
+
+ <!-- Rating -->
+ <label>Overall Score <span id="scoreShow">3</span>/5
+  <input id="scoreRange" name="score" type="range" min="1" max="5" step="0.5" value="3">
+ </label>
+
+ <label>Would Buy?
+  <select name="buy"><option value="">Select</option><option>Yes</option><option>Maybe</option><option>No</option></select>
+ </label>
+
+ <button type="submit">Save Tasting</button>
+</form>
+
+<section>
+ <h2>Your Tastings</h2>
+ <div id="tastingsList"></div>
+ <button id="exportBtn" class="small-btn">Export CSV</button>
+ <button id="pdfBtn" class="small-btn">Export PDF</button>
+ <button id="clearBtn" class="small-btn">Clear All</button>
+</section>
+</main>
+
+<!-- Scanner overlay -->
+<div id="scannerWrap">
+ <video id="scannerVideo"></video>
+ <button id="closeScan" class="small-btn" style="background:#d32f2f;margin-top:1rem">
